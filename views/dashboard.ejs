@@ -1,0 +1,46 @@
+<!-- Success & Error Messages -->
+<% if (success_msg && success_msg.length > 0) { %>
+    <div class="alert alert-success"><%= success_msg %></div>
+<% } %>
+
+<% if (error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+<% } %>
+
+<h1 class="text-center">📝 Welcome, <%= user.username %>!</h1>
+
+<!-- Logout Button -->
+<form action="/api/auth/logout" method="POST">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
+<!-- Blog Form -->
+<div class="card p-4 bg-light">
+    <h2>Create Blog</h2>
+    <form action="/api/blogs/create" method="post">
+        <input type="text" name="title" class="form-control mb-2" placeholder="Title" required>
+        <textarea class="form-control mb-2" name="content" placeholder="Content" required></textarea>
+        <button type="submit" class="btn btn-warning w-100">
+            <i class="fa fa-plus"></i> Create Blog
+        </button>
+    </form>
+</div>
+
+<!-- Blog List -->
+<h2 class="mt-4">📜 All Blogs</h2>
+
+<% if (blogs.length > 0) { %>
+    <div class="row">
+        <% blogs.forEach(blog => { %>
+            <div class="col-md-6">
+                <div class="card mb-3 p-3 shadow-sm">
+                    <h4><%= blog.title %></h4>
+                    <p><%= blog.content %></p>
+                    <small>By <strong><%= blog.author.username %></strong> - <%= new Date(blog.createdAt).toLocaleDateString() %></small>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+<% } else { %>
+    <p class="text-center text-warning">No blogs available yet. Be the first to post!</p>
+<% } %>
