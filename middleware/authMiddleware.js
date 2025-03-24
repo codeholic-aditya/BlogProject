@@ -10,6 +10,7 @@ export const verifyToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Decoded user:", req.user); // Debugging
         req.user = decoded;  // Attach user details to req
         next();
     } catch (error) {

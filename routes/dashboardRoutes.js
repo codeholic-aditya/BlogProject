@@ -7,19 +7,19 @@ const router = express.Router();
 // Dashboard Route (Protected)
 router.get('/dashboard', verifyToken, async (req, res) => {
     try {
+        console.log("User object in dashboard:", req.user); // Debugging
+
         if (!req.user) {
+            console.log("User is undefined. Redirecting to login.");
             return res.redirect('/login'); // Redirect if user is not authenticated
         }
 
-        // Fetch blogs and pass them to the template
         const blogs = await Blog.find().populate('author', 'username');
-
-        console.log("User object:", req.user); // Debugging
 
         res.render('dashboard', { 
             user: req.user, 
             blogs,
-            success_msg: req.flash('success_msg'),  // Pass flash messages explicitly
+            success_msg: req.flash('success_msg'),  
             error_msg: req.flash('error_msg')
         });
     } catch (error) {

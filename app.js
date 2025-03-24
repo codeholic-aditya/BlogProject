@@ -11,6 +11,7 @@ import blogRouter from './routes/blogRoutes.js';
 import Blog from './models/Blog.js';
 import session from 'express-session';
 import flash from 'connect-flash';
+import { verifyToken } from './middleware/authMiddleware.js';
 
 dotenv.config();
 connectDB();
@@ -50,6 +51,8 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+    res.locals.user = req.user || null; // Pass user to views
+    res.locals.messages = req.flash();
     next();
 });
 
@@ -69,13 +72,24 @@ app.get('/login', (req, res) => {
 });
 
 // 📜 Dashboard Page
-app.get('/dashboard', async (req, res) => {
+app.get('/dashboard', verifyToken, async (req, res) => {
     try {
+        console.log("User object in dashboard:", req.user); // Debugging
+
+        if (!req.user) {
+            console.log("User is undefined. Redirecting to login.");
+            return res.redirect('/login');
+        }
+
         const blogs = await Blog.find().populate('author', 'username email');
-        res.render('dashboard', { blogs });
+
+        res.render('dashboard', { 
+            user: req.user, 
+            blogs
+        });
     } catch (error) {
         console.error(error);
-        res.render('dashboard', { blogs: [] });
+        res.render('dashboard', { user: null, blogs: [] });
     }
 });
 

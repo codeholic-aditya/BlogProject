@@ -7,12 +7,7 @@
     <div class="alert alert-danger"><%= error_msg %></div>
 <% } %>
 
-<h1 class="text-center">📝 Welcome, <%= user.username %>!</h1>
-
-<!-- Logout Button -->
-<form action="/api/auth/logout" method="POST">
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
+<h1 class="text-center">📝 Welcome, <%= user ? user.username : "Guest" %>!</h1>
 
 <!-- Blog Form -->
 <div class="card p-4 bg-light">

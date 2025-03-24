@@ -1,6 +1,15 @@
-
-<footer class="text-center text-light bg-dark py-3 mt-5">
-    <p>&copy; 2025 Blog App</p>
+<footer class="bg-dark text-light py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-2">&copy; 2025 Blog App | All Rights Reserved</p>
+        <div class="d-flex justify-content-center gap-3">
+            <% ['facebook', 'twitter', 'instagram'].forEach(platform => { %>
+                <a href="https://<%= platform %>.com" class="text-light" target="_blank">
+                    <i class="fab fa-<%= platform %> fa-lg"><%= platform %></i>
+                </a>
+            <% }); %>
+        </div>
+        <p class="mt-2 small">Powered by <strong>My Blog</strong></p>
+    </div>
 </footer>
 </body>
 </html>
