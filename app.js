@@ -74,10 +74,7 @@ app.get('/login', (req, res) => {
 // 📜 Dashboard Page
 app.get('/dashboard', verifyToken, async (req, res) => {
     try {
-        console.log("User object in dashboard:", req.user); // Debugging
-
         if (!req.user) {
-            console.log("User is undefined. Redirecting to login.");
             return res.redirect('/login');
         }
 
